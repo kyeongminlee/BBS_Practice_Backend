@@ -3,6 +3,7 @@ package kyeongmin.jake.lee.bbspractice.web;
 import kyeongmin.jake.lee.bbspractice.domain.posts.Posts;
 import kyeongmin.jake.lee.bbspractice.domain.posts.PostsRepository;
 import kyeongmin.jake.lee.bbspractice.web.dto.PostsSaveRequestDto;
+import kyeongmin.jake.lee.bbspractice.web.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,27 @@ class PostsApiControllerTest {
         List<Posts> postsList = postsRepository.findAll();
         assertThat(postsList.get(0).getTitle()).isEqualTo(title);
         assertThat(postsList.get(0).getContent()).isEqualTo(content);
+    }
+
+    @Test
+    void posts_수정() throws Exception {
+        // given
+        Posts post = Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build();
+
+        Posts savedPosts = postsRepository.save(post);
+
+        Long updatedId = savedPosts.getId();
+        String expectedTitle = "title2";
+        String expectedContent = "content2";
+
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder()
+                .title(expectedTitle)
+                .content(expectedContent)
+                .build();
     }
 
 }
